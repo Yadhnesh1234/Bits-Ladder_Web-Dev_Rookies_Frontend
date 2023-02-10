@@ -1,0 +1,13 @@
+#hero-text-container {
+    margin-top: 10rem;
+}
+
+@media only screen and (max-width: 1003px) {
+    #heroSection {
+        flex-wrap: wrap;
+    }
+
+    #hero-text-container {
+        margin-top: 3rem;
+    }
+}
