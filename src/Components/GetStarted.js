@@ -17,7 +17,7 @@ function GetStarted() {
           I'm a client, looking for a worker
         </h3>
         <div class="form-check" style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" defaultChecked/>
         </div>
         </div>
         <div  className="container border my-3 mx-2 p-3">
@@ -37,7 +37,7 @@ function GetStarted() {
       </button>
       <Grid container justifyContent="center" style={{margin:"30px 0px"}}>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
