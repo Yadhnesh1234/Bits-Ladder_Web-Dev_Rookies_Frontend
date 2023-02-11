@@ -1,0 +1,7 @@
+.getStarted-link{
+    color: black;
+    border: 1px solid green;
+}
+.getStarted-link::hover{
+    border: 2px solid rgb(54, 255, 54);
+}

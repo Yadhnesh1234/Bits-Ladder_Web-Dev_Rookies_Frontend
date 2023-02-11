@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import SignUpClient from "./signup/signupclient";
 
 function GetStarted() {
   return (
@@ -8,9 +10,12 @@ function GetStarted() {
         className="container d-flex my-3"
         style={{ minWidth: "5rem", minHeight: "5rem" }}
       >
-        <h3 className="container border my-3 mx-2 p-3">
-          I am a client, looking for a worker
-        </h3>
+        <Link to={'/signupclient'} className="container border my-3 mx-2 p-3 text-decoration-none ">
+          <h3 className="fs-5 ">
+            I am a client, looking for a worker
+          </h3>
+          
+        </Link>
         <h3
           className="container border my-3 mx-2 p-3"
           style={{ minWidth: "5rem", minHeight: "5rem" }}

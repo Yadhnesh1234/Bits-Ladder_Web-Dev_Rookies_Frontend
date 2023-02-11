@@ -13,6 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import app from "../firebase_config";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,7 +45,7 @@ export default function SignUpClient() {
       })
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(form)
+    console.log(form.mobno)
   };
  const handleChange=(event)=>{
     setForm((prev)=>{
@@ -48,10 +55,54 @@ export default function SignUpClient() {
         }
         })
  }
+
+
+ 
+//firebase started
+
+
+const auth = getAuth();
+
+function onCaptchaVerify() {
+  window.recaptchaVerifier = new RecaptchaVerifier(
+    "recaptcha-container",
+    {
+      size: "normal",
+      callback: (response) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+        // ...
+      },
+      "expired-callback": () => {
+        // Response expired. Ask user to solve reCAPTCHA again.
+        // ...
+      },
+    },
+    auth
+  );
+}
+
+function onSignInSubmit(){
+  const phoneNumber = form.mobno;
+  const appVerifier = window.recaptchaVerifier;
+  signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      window.confirmationResult = confirmationResult;
+      // ...
+    }).catch((error) => {
+      // Error; SMS not sent
+      // ...
+    });
+}
+
+//firebase ended
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <div id="recaptcha-container"></div>
         <Box
           sx={{
             marginTop: 8,
