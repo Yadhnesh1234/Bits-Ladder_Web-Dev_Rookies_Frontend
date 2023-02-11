@@ -17,14 +17,14 @@ function HeroSection() {
           libero corporis.
         </p>
         <NavLink to="/getstarted">
-          <button type="button" class="btn btn-dark">
+          <button type="button" className="btn btn-dark">
             Get Started
           </button>
         </NavLink>
       </div>
       <img
         src="./Images/heroSectionImage.jpg"
-        class="img-fluid"
+        className="img-fluid"
         alt="..."
         width={480}
         height={480}

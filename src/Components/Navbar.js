@@ -35,7 +35,7 @@ function Navbar() {
             </ul>
 
             <NavLink to="/signin">
-              <button type="button" class="btn btn-dark mx-2">
+              <button type="button" className="btn btn-dark mx-2">
                 Login
               </button>
             </NavLink>

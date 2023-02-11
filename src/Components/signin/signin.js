@@ -107,7 +107,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <NavLink to="/getstarted" variant="body2">
+                <NavLink to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </NavLink>
               </Grid>

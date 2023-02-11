@@ -14,7 +14,12 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MultiSelect } from "react-multi-select-component";
 
-
+import app from "../firebase_config";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 
 function Copyright(props) {
   return (
@@ -39,13 +44,17 @@ const options = [
   { label: "Strawberry 🍓", value: "strawberry" },
 ];
 const theme = createTheme();
+
 export default function SignUp() {
   const [selected, setSelected] = useState([]);
+  const [mobno, setMobno] = useState("");
+  const [verifyOtp, setVerifyOtp] = useState(false);
+  const [verifyButton, setVerifyButton] = useState(false);
+  const [otp, setOtp] = useState("");
   const [enteredImage, setEnteredImage] = useState("");
   const [form, setForm] = useState({
     fname: "",
     lname: "",
-    mobno: "",
     adhar: "",
     adharcopy: "",
     experience: "",
@@ -57,7 +66,6 @@ export default function SignUp() {
     e.preventDefault();
   };
   const handleChange = (event) => {
-    console.log('hello')
     if (event.target.name === "img") {
       var fread = new FileReader();
       fread.readAsDataURL(event.target.files[0]);
@@ -74,11 +82,75 @@ export default function SignUp() {
       });
     }
   };
+
+  const handleMobno = (e) => {
+    const value = e.target.value;
+    setMobno(value);
+    if (mobno.length === 10 - 1) {
+      setVerifyButton(true);
+      setVerifyOtp(true);
+    }
+  };
+
+  //firebase started
+
+  const auth = getAuth(app);
+
+  function onCaptchaVerify() {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          onSignInSubmit()
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // ...
+        },
+      },
+      auth
+    );
+  }
+
+  function onSignInSubmit() {
+    onCaptchaVerify()
+    const phoneNumber = "+91" + mobno;
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        alert('otp sent')
+        setVerifyOtp(true)
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+      });
+  }
+
+  function verifyCode(){
+    window.confirmationResult.confirm(otp).then((result) => {
+      // User signed in successfully.
+      const user = result.user;
+      console.log(user)
+      alert("User verified")
+      // ...
+    }).catch((error) => {
+      alert("Invalid otp")
+      // User couldn't sign in (bad verification code?)
+      // ...
+    });
+  }
+
+  //firebase ended
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        
+        <div id="recaptcha-container"></div>
         <Box
           sx={{
             marginTop: 8,
@@ -125,18 +197,57 @@ export default function SignUp() {
                   onChange={handleChange}
                 />
               </Grid>
+              {/* Mobile verify */}
               <Grid item xs={12}>
                 <TextField
+                  type="number"
                   required
                   fullWidth
                   id="mob-no"
                   label="Mobile No"
                   name="mobno"
                   autoComplete="Mobile No"
-                  value={form.mobno}
-                  onChange={handleChange}
+                  value={mobno}
+                  onChange={(e) => handleMobno(e)}
                 />
+                {verifyButton ? (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={onSignInSubmit}
+                  >
+                    Verify mobile
+                  </Button>
+                ) : null}
               </Grid>
+              {/* OTP */}
+              {verifyOtp ? (
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="otp"
+                    label="OTP"
+                    name="otp"
+                    autoComplete="OTP"
+                    value={otp}
+                    onChange={(e)=>setOtp(e.target.value)}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    onClick={verifyCode}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onSubmit={handleSubmit}
+                  >
+                    Verify OTP
+                  </Button>
+                </Grid>
+              ) : null}
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -150,11 +261,11 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
+              <label htmlFor="adharcopy">Upload any indentity proof:</label>
                 <TextField
                   required
                   fullWidth
                   name="adharcopy"
-                  label="Adhar Copy"
                   type="file"
                   id="adharCopy"
                   autoComplete="img"
@@ -172,24 +283,14 @@ export default function SignUp() {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid style={{zIndex:"10"}} item xs={12}>
                 <MultiSelect
+                  label="Skills"
                   options={options}
                   value={selected}
                   onChange={setSelected}
                   labelledBy="skills"
                   name="skills"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="exp"
-                  label="Experience"
-                  name="experience"
-                  autoComplete="experience"
-                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -204,14 +305,6 @@ export default function SignUp() {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -220,11 +313,11 @@ export default function SignUp() {
               sx={{ mt: 3, mb: 2 }}
               onSubmit={handleSubmit}
             >
-              Sign Up
+              Sign up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to={"/signin"} variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
