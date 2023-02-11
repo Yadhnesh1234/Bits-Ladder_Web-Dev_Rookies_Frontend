@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { MultiSelect } from "react-multi-select-component"
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -25,50 +25,29 @@ function Copyright(props) {
     </Typography>
   );
 }
-const options = [
-  { label: "Grapes 🍇", value: "grapes" },
-  { label: "Mango 🥭", value: "mango" },
-  { label: "Strawberry 🍓", value: "strawberry" }
-];
-const theme = createTheme();
-export default function SignUp() {
 
-  const [selected, setSelected] = useState([]);
-  const [enteredImage, setEnteredImage] = useState("");
-  const [form, setForm] = useState({
-    fname:"",
-    lname:"",
-    mobno: "",
-    adhar :"",
-    adharcopy: "",
-    experience:"",
-    email:"",
-    skills:selected,
-    password:""
-  })
-  const handleSubmit=(e)=>{
-    e.preventDefault()
+const theme = createTheme();
+
+export default function SignUpClient() {
+ const [form, setForm] = useState({
+        fname:"",
+        lname:"",
+        mobno: "",
+        email:"",
+        password:""
+      })
+  const handleSubmit = (event) => {
+    event.preventDefault();
     console.log(form)
-  }
-  const handleChange = (event) => {
-    if (event.target.name === "img") {
-      var fread = new FileReader();
-      fread.readAsDataURL(event.target.files[0]);
-      fread.onloadend = function (event) {
-        setEnteredImage(event.target.result);
-      };
-      setEnteredImage(event.target.files[0]);   
-    }
-    else
-    {
-      setForm((prev)=>{
+  };
+ const handleChange=(event)=>{
+    setForm((prev)=>{
         return {
         ...prev,
         [event.target.name] : event.target.value
         }
         })
-    }    
-  };
+ }
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -109,44 +88,8 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lname"
-                  autoComplete="family-name"
                   value={form.lname}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="mob-no"
-                  label="Mobile No"
-                  name="mobno"
-                  autoComplete="Mobile No"
-                  value={form.mobno}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="adhar"
-                  label="Adhar No"
-                  name="adhar"
-                  autoComplete="adhar"
-                  value={form.adhar}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="adharcopy"
-                  label="Adhar Copy"
-                  type="file"
-                  id="adharCopy"
-                  autoComplete="img"
+                  autoComplete="family-name"
                   onChange={handleChange}
                 />
               </Grid>
@@ -158,26 +101,19 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={form.email}
                   onChange={handleChange}
                 />
-              </Grid>
-              <Grid item xs={12}>
-              <MultiSelect
-                  options={options}
-                  value={selected}
-                  onChange={setSelected}
-                  labelledBy="skills"
-                  name="skills"
-              />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="exp"
-                  label="Experience"
-                  name="experience"
-                  autoComplete="experience"
+                  id="mobno"
+                  label="Mobile No"
+                  name="mobno"
+                  value={form.mobno}
+                  autoComplete="Mobile No"
                   onChange={handleChange}
                 />
               </Grid>
@@ -190,6 +126,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={form.password}
                   onChange={handleChange}
                 />
               </Grid>
@@ -204,8 +141,8 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
               onSubmit={handleSubmit}
+              sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </Button>
