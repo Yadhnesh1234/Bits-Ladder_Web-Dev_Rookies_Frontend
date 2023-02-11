@@ -1,5 +1,6 @@
 import React from "react";
 import "../../Styles/HeroSection.css";
+import { NavLink } from "react-router-dom";
 
 function HeroSection() {
   return (
@@ -15,9 +16,11 @@ function HeroSection() {
           exercitationem, unde repudiandae rerum enim doloribus id ullam? Quod,
           libero corporis.
         </p>
-        <button type="button" class="btn btn-dark">
-          Get Started
-        </button>
+        <NavLink to="/getstarted">
+          <button type="button" class="btn btn-dark">
+            Get Started
+          </button>
+        </NavLink>
       </div>
       <img
         src="./Images/heroSectionImage.jpg"

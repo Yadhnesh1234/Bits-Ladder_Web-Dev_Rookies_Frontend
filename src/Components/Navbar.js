@@ -1,13 +1,14 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <NavLink className="navbar-brand" to="/">
             Connect
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -33,9 +34,11 @@ function Navbar() {
               </li>
             </ul>
 
-            <button type="button" class="btn btn-dark mx-2">
-              Login
-            </button>
+            <NavLink to="/signin">
+              <button type="button" class="btn btn-dark mx-2">
+                Login
+              </button>
+            </NavLink>
           </div>
         </div>
       </nav>
