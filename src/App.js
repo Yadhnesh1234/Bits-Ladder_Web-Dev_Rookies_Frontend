@@ -24,13 +24,15 @@ function App() {
           <Route path="/" exact element={<Homepage />} />
           <Route path="/getstarted" exact element={<GetStarted />} />
           <Route path="/signin" exact element={<SignIn />} />
-          <Route path="/signup" exact element={<SignUp />} />
-          <Route path="/signupclient" exact element={<SignUpClient />} />
+          <Route path="/worker/signup" exact element={<SignUp />} />
+          <Route path="/client/signup" exact element={<SignUpClient />} />
           <Route path="/verifyPhone" exact element={<VerificationCard />} />
           <Route path="/profile/worker" exact element={<WorkerProfilePage />} />
           <Route path="/post-work" exact element={<ClientPostingPage />} />
           <Route path="/post/responses" exact element={<PostResponsesPage />} />
           <Route path="/post/response/read-more" exact element={<ReadMore />} />
+          <Route path="/notifications" exact element={<Notifications />} />
+          <Route path="/client/dashboard" exact element={<DashBoard />} />
         </Routes>
       </Router>
     </div>
