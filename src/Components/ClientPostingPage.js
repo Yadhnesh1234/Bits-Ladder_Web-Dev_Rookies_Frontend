@@ -96,7 +96,7 @@ function ClientPostingPage() {
               Description
             </label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="exampleFormControlTextarea1"
               rows="5"
               style={{ maxWidth: "28rem" }}

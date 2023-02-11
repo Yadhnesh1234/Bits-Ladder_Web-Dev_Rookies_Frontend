@@ -16,10 +16,10 @@ function PostResponsesPage() {
             Hi, I am Harish. Your requirement is not that hard, i can complete
             it within..
           </p>
-          <button type="button" class="btn btn-success">
+          <button type="button" className="btn btn-success">
             ✔ Accept
           </button>
-          <button type="button" class="btn btn-danger mx-3">
+          <button type="button" className="btn btn-danger mx-3">
             ✖ Reject
           </button>
           <a
@@ -50,10 +50,10 @@ function PostResponsesPage() {
             Hi, I am Harish. Your requirement is not that hard, i can complete
             it within..
           </p>
-          <button type="button" class="btn btn-success">
+          <button type="button" className="btn btn-success">
             ✔ Accept
           </button>
-          <button type="button" class="btn btn-danger mx-3">
+          <button type="button" className="btn btn-danger mx-3">
             ✖ Reject
           </button>
           <a
@@ -84,10 +84,10 @@ function PostResponsesPage() {
             Hi, I am Harish. Your requirement is not that hard, i can complete
             it within..
           </p>
-          <button type="button" class="btn btn-success">
+          <button type="button" className="btn btn-success">
             ✔ Accept
           </button>
-          <button type="button" class="btn btn-danger mx-3">
+          <button type="button" className="btn btn-danger mx-3">
             ✖ Reject
           </button>
           <a
@@ -118,10 +118,10 @@ function PostResponsesPage() {
             Hi, I am Harish. Your requirement is not that hard, i can complete
             it within..
           </p>
-          <button type="button" class="btn btn-success">
+          <button type="button" className="btn btn-success">
             ✔ Accept
           </button>
-          <button type="button" class="btn btn-danger mx-3">
+          <button type="button" className="btn btn-danger mx-3">
             ✖ Reject
           </button>
           <a
@@ -152,10 +152,10 @@ function PostResponsesPage() {
             Hi, I am Harish. Your requirement is not that hard, i can complete
             it within..
           </p>
-          <button type="button" class="btn btn-success">
+          <button type="button" className="btn btn-success">
             ✔ Accept
           </button>
-          <button type="button" class="btn btn-danger mx-3">
+          <button type="button" className="btn btn-danger mx-3">
             ✖ Reject
           </button>
           <a

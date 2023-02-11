@@ -24,7 +24,7 @@ export default function DashBoard(){
         </Container>
         <Container maxWidth="sm">
         <CssBaseline />
-        <Box sx={{ bgcolor: 'white',boxShadow:" 1px 1px 6px black", height: '100vh', width:"192%",marginLeft: "-270px",marginTop:"15px",borderRadius:"12px"}} > 
+        <Box  sx={{ bgcolor: 'white', overflow:"auto", boxShadow:" 1px 1px 6px black", height: '100vh', width:"192%",marginLeft: "-270px",marginTop:"15px",borderRadius:"12px"}} > 
         <div style={{padding:"50px"}}>
             <h3>Posts</h3>
             {

@@ -45,27 +45,13 @@ function Navbar() {
                 </li>
               </NavLink>
             </ul>
-            <div>
-              <NavLink to="/client/signin">
-                <button
-                  type="button"
-                  class="btn btn-dark mx-2"
-                  style={
-                    loggedInStatus ? { display: "none" } : { display: "block" }
-                  }
-                >
-                  Login
-                </button>
-              </NavLink>
-            </div>
-            <NavLink to="/notifications">
-              <button
-                type="button"
-                class="btn btn-outline-dark mx-2"
-                style={
-                  loggedInStatus ? { display: "block" } : { display: "none" }
-                }
-              >
+            <NavLink to="/signin">
+              <button type="button" class="btn btn-dark mx-2">
+                Login
+              </button>
+            </NavLink>
+            <NavLink to="/notification">
+              <button type="button" class="btn btn-outline-dark mx-2">
                 🔔
               </button>
             </NavLink>

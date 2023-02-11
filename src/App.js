@@ -7,6 +7,7 @@ import SignIn from "./Components/signin/signin";
 import GetStarted from "./Components/GetStarted";
 import ClientPostingPage from "./Components/ClientPostingPage";
 import VerificationCard from "./Components/signup/VerificationCard";
+import Dashboard from "./Components/Admin/Dashboard";
 import WorkerProfilePage from "./Components/ProfilePage/WorkerProfilePage";
 import PostResponsesPage from "./Components/PostResponsesPage";
 import ReadMore from "./Components/ReadMore";
@@ -19,7 +20,9 @@ function App() {
   return (
     <div>
       <Router>
-        <Navbar />
+        {
+          window.location.pathname === '/admin'? null: <Navbar />
+        }
         <Routes>
           <Route path="/" exact element={<Homepage />} />
           <Route path="/getstarted" exact element={<GetStarted />} />
