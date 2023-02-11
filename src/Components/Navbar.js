@@ -29,14 +29,18 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">
-                  Find Worker
+                  Post Work
                 </a>
               </li>
             </ul>
-
             <NavLink to="/signin">
               <button type="button" className="btn btn-dark mx-2">
                 Login
+              </button>
+            </NavLink>
+            <NavLink to="/notification">
+              <button type="button" class="btn btn-outline-dark mx-2">
+                🔔
               </button>
             </NavLink>
           </div>

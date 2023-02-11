@@ -11,7 +11,9 @@ import Dashboard from "./Components/Admin/Dashboard";
 import WorkerProfilePage from "./Components/ProfilePage/WorkerProfilePage";
 import PostResponsesPage from "./Components/PostResponsesPage";
 import ReadMore from "./Components/ReadMore";
-import DashBoard from "./Components/clientdashboard/Dashboard"
+import DashBoard from "./Components/clientdashboard/Dashboard";
+import Notifications from "./Components/Notifications";
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -25,14 +27,15 @@ function App() {
           <Route path="/" exact element={<Homepage />} />
           <Route path="/getstarted" exact element={<GetStarted />} />
           <Route path="/signin" exact element={<SignIn />} />
-          <Route path="/signup" exact element={<SignUp />} />
-          <Route path="/signupclient" exact element={<SignUpClient />} />
+          <Route path="/worker/signup" exact element={<SignUp />} />
+          <Route path="/client/signup" exact element={<SignUpClient />} />
           <Route path="/verifyPhone" exact element={<VerificationCard />} />
           <Route path="/profile/worker" exact element={<WorkerProfilePage />} />
           <Route path="/post-work" exact element={<ClientPostingPage />} />
           <Route path="/post/responses" exact element={<PostResponsesPage />} />
           <Route path="/post/response/read-more" exact element={<ReadMore />} />
-          <Route path="/dashboard" exact element={<DashBoard />} />
+          <Route path="/notifications" exact element={<Notifications />} />
+          <Route path="/client/dashboard" exact element={<DashBoard />} />
         </Routes>
       </Router>
     </div>
