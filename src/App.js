@@ -10,6 +10,7 @@ import VerificationCard from "./Components/signup/VerificationCard";
 import WorkerProfilePage from "./Components/ProfilePage/WorkerProfilePage";
 import PostResponsesPage from "./Components/PostResponsesPage";
 import ReadMore from "./Components/ReadMore";
+import DashBoard from "./Components/clientdashboard/Dashboard";
 import Notifications from "./Components/Notifications";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -30,7 +31,6 @@ function App() {
           <Route path="/post-work" exact element={<ClientPostingPage />} />
           <Route path="/post/responses" exact element={<PostResponsesPage />} />
           <Route path="/post/response/read-more" exact element={<ReadMore />} />
-          <Route path="/notification" exact element={<Notifications />} />
         </Routes>
       </Router>
     </div>
