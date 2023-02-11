@@ -1,17 +1,17 @@
-import {useState} from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Copyright(props) {
   return (
@@ -33,30 +33,30 @@ function Copyright(props) {
 
 const theme = createTheme();
 export default function SignUpClient() {
- const [form, setForm] = useState({
-        fname:"",
-        lname:"",
-        mobno: "",
-        email:"",
-        password:""
-      })
+  const [form, setForm] = useState({
+    fname: "",
+    lname: "",
+    mobno: "",
+    email: "",
+    password: "",
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(form)
+    console.log(form);
   };
   const handleChange = (event) => {
     setForm((prev) => {
       return {
         ...prev,
-        [event.target.name] : event.target.value
-        }
-        })
- }
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        
+
         <Box
           sx={{
             marginTop: 8,
@@ -118,7 +118,9 @@ export default function SignUpClient() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
