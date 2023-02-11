@@ -1,7 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Navbar() {
+  const [loggedInStatus, setLoggedInStatus] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("loggedInStatus")) {
+      setLoggedInStatus(true);
+    } else {
+      setLoggedInStatus(false);
+    }
+  }, []);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -27,20 +37,48 @@ function Navbar() {
                   Find Work
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Post Work
-                </a>
-              </li>
+              <NavLink to="/post-work" style={{ textDecoration: "none" }}>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Post Work
+                  </a>
+                </li>
+              </NavLink>
             </ul>
-            <NavLink to="/signin">
-              <button type="button" class="btn btn-dark mx-2">
-                Login
+            <div>
+              <NavLink to="/client/signin">
+                <button
+                  type="button"
+                  class="btn btn-dark mx-2"
+                  style={
+                    loggedInStatus ? { display: "none" } : { display: "block" }
+                  }
+                >
+                  Login
+                </button>
+              </NavLink>
+            </div>
+            <NavLink to="/notifications">
+              <button
+                type="button"
+                class="btn btn-outline-dark mx-2"
+                style={
+                  loggedInStatus ? { display: "block" } : { display: "none" }
+                }
+              >
+                🔔
               </button>
             </NavLink>
-            <NavLink to="/notification">
-              <button type="button" class="btn btn-outline-dark mx-2">
-                🔔
+
+            <NavLink to="/client/dashboard">
+              <button
+                type="button"
+                class="btn btn-outline-dark mx-2"
+                style={
+                  loggedInStatus ? { display: "block" } : { display: "none" }
+                }
+              >
+                🤵
               </button>
             </NavLink>
           </div>
