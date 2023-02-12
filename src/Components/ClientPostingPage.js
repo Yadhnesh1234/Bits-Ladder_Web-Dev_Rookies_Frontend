@@ -6,31 +6,69 @@ import { useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 function ClientPostingPage() {
   const [selected, setSelected] = useState([]);
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchCat = async () => {
-      try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/v1/categories"
-        );
-        console.log("backed data", data.data[0].title);
-        setCategories(data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    fetchCat();
-  }, [setCategories]);
+  const navigate = useNavigate();
+  // useEffect(() => {
+  //   const fetchCat = async () => {
+  //     try {
+  //       const { data } = await axios.get(
+  //         "http://localhost:5000/api/v1/categories"
+  //       );
+  //       console.log("backed data", data.data[0].title);
+  //       setCategories(data.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-  const handleData = ()=>{
+  //   fetchCat();
+  // }, [setCategories]);
 
+  async function postData(data) {
+    const response = await fetch("http://localhost:5000/api/v1/client/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
   }
+
+  const handleData = () => {
+    console.log("Hello");
+    let Data = {
+      title: document.getElementById("post-title").value,
+      place: document.getElementById("post-place").value,
+      location: {
+        type: "Point",
+        coordinates: [
+          document.getElementById("post-latitude").value,
+          document.getElementById("post-longitude").value,
+        ],
+      },
+      description: document.getElementById("post-desc").value,
+      minBudget: document.getElementById("post-estBud").value,
+      maxBudget: document.getElementById("post-estBud").value,
+      category: "63e68fa682ffddcd6081e5a1",
+      owner: localStorage.getItem("userId"),
+    };
+    postData(Data).then((data) => {
+      console.log(data);
+      if (data.success) {
+        alert("Post Created Successfully");
+        navigate("/client/dashboard");
+      } else {
+        alert("Unable to create post :(");
+      }
+    });
+  };
 
   return (
     <div className="card container my-5">
@@ -52,7 +90,7 @@ function ClientPostingPage() {
             <input
               type="text"
               className="form-control"
-              id="exampleInputEmail1"
+              id="post-title"
               aria-describedby="emailHelp"
               style={{ maxWidth: "42rem" }}
             />
@@ -66,7 +104,7 @@ function ClientPostingPage() {
               <input
                 type="text"
                 className="form-control"
-                id="exampleInputEmail1"
+                id="post-place"
                 aria-describedby="emailHelp"
               />
             </div>
@@ -78,7 +116,7 @@ function ClientPostingPage() {
               <input
                 type="number"
                 className="form-control"
-                id="exampleInputEmail1"
+                id="post-longitude"
                 aria-describedby="emailHelp"
               />
             </div>
@@ -90,7 +128,7 @@ function ClientPostingPage() {
               <input
                 type="number"
                 className="form-control"
-                id="exampleInputEmail1"
+                id="post-latitude"
                 aria-describedby="emailHelp"
               />
             </div>
@@ -103,7 +141,7 @@ function ClientPostingPage() {
             <input
               type="number"
               className="form-control"
-              id="exampleInputEmail1"
+              id="post-estBud"
               aria-describedby="emailHelp"
               style={{ maxWidth: "28rem" }}
             />
@@ -111,14 +149,13 @@ function ClientPostingPage() {
 
           <div className="my-3">
             <Grid style={{ zIndex: "10" }} item xs={12}>
-              <label>Select Category: </label><br/>
-                <select onChange={(e) => setCategory(e.target.value)}>
+              <label>Select Category: </label>
+              <br />
+              <select onChange={(e) => setCategory(e.target.value)}>
                 <option value="">Choose Category</option>
-                {categories.map((cate, index) => (
-                  <option key={cate.title} value={cate.title}>
-                    {cate.title}
-                  </option>
-                ))}
+                <option>Plumber</option>
+                <option>Electrician</option>
+                <option>Other</option>
               </select>
             </Grid>
           </div>
@@ -129,7 +166,7 @@ function ClientPostingPage() {
             </label>
             <textarea
               className="form-control"
-              id="exampleFormControlTextarea1"
+              id="post-desc"
               rows="5"
               style={{ maxWidth: "28rem" }}
               placeholder="Elaborate your work requirements here"

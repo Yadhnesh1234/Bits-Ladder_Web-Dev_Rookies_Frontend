@@ -12,8 +12,8 @@ import ReadMore from "./Components/ReadMore";
 import DashBoard from "./Components/clientdashboard/Dashboard";
 import Notifications from "./Components/Notifications";
 import WorkerProfilePage from "./Components/WorkerProfilePage/WorkerProfilePage";
-import Subscription from "./Components/Subscription/subscription"
-import PostFeed from "./Components/PostFeed/PostFeed"
+import Subscription from "./Components/Subscription/subscription";
+import PostFeed from "./Components/PostFeed/PostFeed";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -21,9 +21,7 @@ function App() {
   return (
     <div>
       <Router>
-        {
-          window.location.pathname === '/admin'? null: <Navbar />
-        }
+        {window.location.pathname === "/admin" ? null : <Navbar />}
         <Routes>
           <Route path="/" exact element={<Homepage />} />
           <Route path="/getstarted" exact element={<GetStarted />} />
@@ -40,6 +38,11 @@ function App() {
           <Route path="/client/dashboard" exact element={<DashBoard />} />
           <Route path="/worker/subscription" exact element={<Subscription />} />
           <Route path="/worker/postfeed" exact element={<PostFeed />} />
+          <Route
+            path="/worker/dashboard"
+            exact
+            element={<WorkerProfilePage />}
+          />
         </Routes>
       </Router>
     </div>
