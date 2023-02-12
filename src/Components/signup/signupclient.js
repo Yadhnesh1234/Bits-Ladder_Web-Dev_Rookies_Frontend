@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -33,16 +34,36 @@ function Copyright(props) {
 
 const theme = createTheme();
 export default function SignUpClient() {
+  const navigate = useNavigate();
+
+  async function postData() {
+    const response = await fetch("http://localhost:5000/api/v1/client/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    return response.json();
+  }
+
   const [form, setForm] = useState({
-    fname: "",
-    lname: "",
-    mobno: "",
-    email: "",
+    name: "",
+    phone: "",
     password: "",
   });
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(form);
+    postData().then((data) => {
+      console.log(data);
+      if (data.success) {
+        alert("Account Created Successfully");
+        navigate("/client/signin");
+      } else {
+        alert("Something went wrong :(");
+      }
+    });
   };
   const handleChange = (event) => {
     setForm((prev) => {
