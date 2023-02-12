@@ -1,6 +1,37 @@
+import { Grid, Select } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { MultiSelect } from "react-multi-select-component";
+import { MenuItem } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
+
 
 function ClientPostingPage() {
+  const [selected, setSelected] = useState([]);
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchCat = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/v1/categories"
+        );
+        console.log("backed data", data.data[0].title);
+        setCategories(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCat();
+  }, [setCategories]);
+
+  const handleData = ()=>{
+
+  }
+
   return (
     <div className="card container my-5">
       <h2 className="card-header">Post Work</h2>
@@ -79,16 +110,17 @@ function ClientPostingPage() {
           </div>
 
           <div className="my-3">
-            <label for="exampleInputEmail1" className="form-label">
-              Category
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              style={{ maxWidth: "28rem" }}
-            />
+            <Grid style={{ zIndex: "10" }} item xs={12}>
+              <label>Select Category: </label><br/>
+                <select onChange={(e) => setCategory(e.target.value)}>
+                <option value="">Choose Category</option>
+                {categories.map((cate, index) => (
+                  <option key={cate.title} value={cate.title}>
+                    {cate.title}
+                  </option>
+                ))}
+              </select>
+            </Grid>
           </div>
 
           <div className="my-3">
@@ -105,9 +137,9 @@ function ClientPostingPage() {
           </div>
         </div>
 
-        <a href="#" className="btn btn-dark">
+        <button onClick={handleData} className="btn btn-dark">
           Create Post
-        </a>
+        </button>
       </div>
     </div>
   );

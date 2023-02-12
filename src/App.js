@@ -27,7 +27,8 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Homepage />} />
           <Route path="/getstarted" exact element={<GetStarted />} />
-          <Route path="/signin" exact element={<SignIn />} />
+          <Route path="/client/signin" exact element={<SignIn />} />
+          <Route path="/worker/signin" exact element={<SignIn />} />
           <Route path="/worker/signup" exact element={<SignUp />} />
           <Route path="/client/signup" exact element={<SignUpClient />} />
           <Route path="/verifyPhone" exact element={<VerificationCard />} />

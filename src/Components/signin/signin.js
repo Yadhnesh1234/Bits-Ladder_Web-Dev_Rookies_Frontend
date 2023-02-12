@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -35,14 +37,44 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({});
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
+      phone_no: data.get("phone"),
       password: data.get("password"),
     });
+    setForm({
+      phone_no: data.get("phone"),
+      password: data.get("password"),
+    });
+
+    postData().then((data) => {
+      console.log(data);
+      if (data.success) {
+        alert("Logged in Success");
+        localStorage.setItem("userId", data.data._id);
+        localStorage.setItem("loggedInStatus", true);
+        navigate("/post-work");
+      } else {
+        alert(data.message);
+      }
+    });
   };
+
+  async function postData() {
+    const response = await fetch("http://localhost:5000/api/v1/client/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    return response.json();
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,10 +104,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="phone"
+              label="Phone Number"
+              name="phone"
+              autoComplete="phone"
               autoFocus
             />
             <TextField

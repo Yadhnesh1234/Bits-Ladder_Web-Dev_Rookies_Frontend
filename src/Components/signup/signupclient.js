@@ -12,8 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -34,18 +33,37 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
 export default function SignUpClient() {
+  const navigate = useNavigate();
+
+  async function postData() {
+    const response = await fetch("http://localhost:5000/api/v1/client/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    return response.json();
+  }
+
   const [form, setForm] = useState({
-    fname: "",
-    lname: "",
-    mobno: "",
-    email: "",
+    name: "",
+    phone: "",
     password: "",
-    verified: false,
   });
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(form);
+    postData().then((data) => {
+      console.log(data);
+      if (data.success) {
+        alert("Account Created Successfully");
+        navigate("/client/signin");
+      } else {
+        alert("Something went wrong :(");
+      }
+    });
   };
   const handleChange = (event) => {
     setForm((prev) => {
@@ -55,13 +73,11 @@ export default function SignUpClient() {
       };
     });
   };
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        
+
         <Box
           sx={{
             marginTop: 8,
@@ -83,51 +99,27 @@ export default function SignUpClient() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="fname"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="name"
+                  label="Name"
                   onChange={handleChange}
-                  value={form.fname}
+                  value={form.name}
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lname"
-                  value={form.lname}
-                  autoComplete="family-name"
-                  onChange={handleChange}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={form.email}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="mobno"
+                  id="phone"
                   label="Mobile No"
-                  name="mobno"
-                  value={form.mobno}
+                  name="phone"
+                  value={form.phone}
                   autoComplete="Mobile No"
                   onChange={handleChange}
                 />
@@ -163,7 +155,7 @@ export default function SignUpClient() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="#" variant="body2">
                   Already have an account? Sign in
