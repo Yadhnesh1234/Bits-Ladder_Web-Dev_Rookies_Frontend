@@ -39,7 +39,7 @@ function Navbar() {
               </button>
             </NavLink>
             <NavLink to="/notification">
-              <button type="button" class="btn btn-outline-dark mx-2">
+              <button type="button" className="btn btn-outline-dark mx-2">
                 🔔
               </button>
             </NavLink>

@@ -9,10 +9,10 @@ function Notifications() {
       <div className="container my-3">
         <i>15 minutes ago</i>
         <div
-          class="card my-2"
+          className="card my-2"
           style={{ backgroundColor: "#2baca6", color: "white " }}
         >
-          <div class="card-body">
+          <div className="card-body">
             <span> Harish Rajput Responded to your post. </span>
             <a
               className="mx-3"
@@ -28,10 +28,10 @@ function Notifications() {
       <div className="container my-3">
         <i>1 hour ago</i>
         <div
-          class="card my-2"
+          className="card my-2"
           style={{ backgroundColor: "#2baca6", color: "white " }}
         >
-          <div class="card-body">
+          <div className="card-body">
             <span> Harish Rajput Responded to your post. </span>
             <a
               className="mx-3"

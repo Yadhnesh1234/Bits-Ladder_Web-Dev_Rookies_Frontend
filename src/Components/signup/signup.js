@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -20,6 +18,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
 } from "firebase/auth";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -51,7 +50,9 @@ export default function SignUp() {
   const [verifyOtp, setVerifyOtp] = useState(false);
   const [verifyButton, setVerifyButton] = useState(false);
   const [otp, setOtp] = useState("");
-  const [enteredImage, setEnteredImage] = useState("");
+  const [isPhoneVerifed, setIsPhoneVerifed] = useState(false);
+  const [aadharImg, setAadharImg] = useState("");
+  const [url, setUrl] = useState("");
   const [form, setForm] = useState({
     fname: "",
     lname: "",
@@ -62,26 +63,88 @@ export default function SignUp() {
     skills: selected,
     password: "",
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   uploadFile();
+  // };
   const handleChange = (event) => {
-    if (event.target.name === "img") {
-      var fread = new FileReader();
-      fread.readAsDataURL(event.target.files[0]);
-      fread.onloadend = function (event) {
-        setEnteredImage(event.target.result);
+    setForm((prev) => {
+      return {
+        ...prev,
+        [event.target.name]: event.target.value,
       };
-      setEnteredImage(event.target.files[0]);
-    } else {
-      setForm((prev) => {
-        return {
-          ...prev,
-          [event.target.name]: event.target.value,
-        };
+    });
+  };
+
+  //Uploading file starts
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", aadharImg);
+    formData.append("upload_preset", "ur_work-connect");
+    formData.append("cloud_name", "dnlfo2fwt");
+
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnlfo2fwt/image/upload",
+        formData
+      );
+
+      setUrl(res.data.url);
+
+      // Store the image URL in your MongoDB database
+      await axios.post("http://localhost:5000/api/v1/workers", {
+        name: form.fname + form.lname,
+        phone_no: mobno,
+        aadhar_id: form.adhar,
+        password: form.password,
+        phone_verified: isPhoneVerifed,
+        aadhar_card_url: url,
       });
+    } catch (error) {
+      console.error(error);
     }
   };
+
+  // const uploadFile = () => {
+  //   const data = new FormData();
+  //   data.append("file", aadharImg);
+  //   data.append("upload_preset", "ur_work-connect");
+  //   data.append("cloud_name", "dnlfo2fwt");
+  //   fetch("https://api.cloudinary.com/v1_1/dnlfo2fwt/image/upload", {
+  //     method: "post",
+  //     body: data,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUrl(data.url);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+
+  //   // try {
+  //   //   const postData = await fetch("http://localhost:5000/api/v1/workers",{
+  //   //     method:"post",
+  //   //     headers:{
+  //   //       "Content-Type":"application/json"
+  //   //     },
+  //   //     body: JSON.stringify({
+  //   //       name: form.fname+form.lname,
+  //   //       phone_no: mobno,
+  //   //       aadhar_id: form.adhar,
+  //   //       password: form.password,
+  //   //       phone_verified: isPhoneVerifed,
+  //   //       aadhar_card_url: url
+  //   //     })
+  //   //   })
+  //   // } catch (error) {
+  //   //   console.log(error)
+  //   // }
+  // };
+  //Uploading file ends
 
   const handleMobno = (e) => {
     const value = e.target.value;
@@ -102,7 +165,7 @@ export default function SignUp() {
       {
         size: "invisible",
         callback: (response) => {
-          onSignInSubmit()
+          onSignInSubmit();
           // reCAPTCHA solved, allow signInWithPhoneNumber.
           // ...
         },
@@ -112,7 +175,7 @@ export default function SignUp() {
   }
 
   function onSignInSubmit() {
-    onCaptchaVerify()
+    onCaptchaVerify();
     const phoneNumber = "+91" + mobno;
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
@@ -120,8 +183,8 @@ export default function SignUp() {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
-        alert('otp sent')
-        setVerifyOtp(true)
+        alert("otp sent");
+        setVerifyOtp(true);
         // ...
       })
       .catch((error) => {
@@ -130,18 +193,22 @@ export default function SignUp() {
       });
   }
 
-  function verifyCode(){
-    window.confirmationResult.confirm(otp).then((result) => {
-      // User signed in successfully.
-      const user = result.user;
-      console.log(user)
-      alert("User verified")
-      // ...
-    }).catch((error) => {
-      alert("Invalid otp")
-      // User couldn't sign in (bad verification code?)
-      // ...
-    });
+  function verifyCode() {
+    window.confirmationResult
+      .confirm(otp)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log(user);
+        alert("User verified");
+        setIsPhoneVerifed(true);
+      })
+      .catch((error) => {
+        alert("Invalid otp");
+        setIsPhoneVerifed(false);
+        // User couldn't sign in (bad verification code?)
+        // ...
+      });
   }
 
   //firebase ended
@@ -233,7 +300,7 @@ export default function SignUp() {
                     name="otp"
                     autoComplete="OTP"
                     value={otp}
-                    onChange={(e)=>setOtp(e.target.value)}
+                    onChange={(e) => setOtp(e.target.value)}
                   />
                   <Button
                     type="submit"
@@ -261,7 +328,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-              <label htmlFor="adharcopy">Upload any indentity proof:</label>
+                <label htmlFor="adharcopy">Upload any indentity proof:</label>
                 <TextField
                   required
                   fullWidth
@@ -269,7 +336,7 @@ export default function SignUp() {
                   type="file"
                   id="adharCopy"
                   autoComplete="img"
-                  onChange={handleChange}
+                  onChange={(e) => setAadharImg(e.target.files[0])}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -283,7 +350,7 @@ export default function SignUp() {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid style={{zIndex:"10"}} item xs={12}>
+              <Grid style={{ zIndex: "10" }} item xs={12}>
                 <MultiSelect
                   label="Skills"
                   options={options}
@@ -311,7 +378,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onSubmit={handleSubmit}
+              onClick={handleSubmit}
             >
               Sign up
             </Button>

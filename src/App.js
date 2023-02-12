@@ -7,12 +7,13 @@ import SignIn from "./Components/signin/signin";
 import GetStarted from "./Components/GetStarted";
 import ClientPostingPage from "./Components/ClientPostingPage";
 import VerificationCard from "./Components/signup/VerificationCard";
-import Dashboard from "./Components/Admin/Dashboard";
-import WorkerProfilePage from "./Components/ProfilePage/WorkerProfilePage";
 import PostResponsesPage from "./Components/PostResponsesPage";
 import ReadMore from "./Components/ReadMore";
 import DashBoard from "./Components/clientdashboard/Dashboard";
 import Notifications from "./Components/Notifications";
+import WorkerProfilePage from "./Components/WorkerProfilePage/WorkerProfilePage";
+import Subscription from "./Components/Subscription/subscription"
+import PostFeed from "./Components/PostFeed/PostFeed"
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -36,6 +37,8 @@ function App() {
           <Route path="/post/response/read-more" exact element={<ReadMore />} />
           <Route path="/notifications" exact element={<Notifications />} />
           <Route path="/client/dashboard" exact element={<DashBoard />} />
+          <Route path="/worker/subscription" exact element={<Subscription />} />
+          <Route path="/worker/postfeed" exact element={<PostFeed />} />
         </Routes>
       </Router>
     </div>
